@@ -1,2 +1,2 @@
 fastapi[standard]
-uptime-kuma-api
+uptime-kuma-api @ git+https://github.com/markus-seidl/uptime-kuma-api@feature/upgrade-to-2
