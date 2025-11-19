@@ -28,7 +28,7 @@ except:
 
 @app.get('/')
 def index():
-    return {"usage": ["/maintenance", "/maintenance/{m_id}" "/maintenance/{m_id}/pause", "/maintenance/{m_id}/resume", "/info"]}
+    return {"usage": ["/maintenance", "/maintenance/{m_id}", "/maintenance/{m_id}/pause", "/maintenance/{m_id}/resume", "/info"]}
 
 @app.get('/info')
 def info():
