@@ -28,13 +28,7 @@ except:
     print("Unable to login to Uptime Kuma, check your credentials.")
     exit(1)
 
-try:
-    twofa_enabled = api.twofa_status()
-except:
-    print("Unable to get 2FA status, check your credentials.")
-    exit(1)
-
-if twofa_enabled:
+if UPTIME_KUMA_2FA_SECRET:
     try:
         totp = pyotp.TOTP(UPTIME_KUMA_2FA_SECRET)
         token = totp.now()
