@@ -1,10 +1,12 @@
 from uptime_kuma_api import UptimeKumaApi
 from fastapi import FastAPI
 from os import getenv, environ
+import pyotp
 
 UPTIME_KUMA_URL = getenv('UPTIME_KUMA_URL')
 UPTIME_KUMA_USERNAME = getenv('UPTIME_KUMA_USERNAME')
 UPTIME_KUMA_PASSWORD = getenv('UPTIME_KUMA_PASSWORD')
+UPTIME_KUMA_2FA_SECRET = getenv('UPTIME_KUMA_2FA_SECRET') or None
 
 required_vars = ["UPTIME_KUMA_URL", "UPTIME_KUMA_USERNAME", "UPTIME_KUMA_PASSWORD"]
 for var in required_vars:
@@ -25,6 +27,27 @@ try:
 except:
     print("Unable to login to Uptime Kuma, check your credentials.")
     exit(1)
+
+try:
+    twofa_enabled = api.twofa_status()
+except:
+    print("Unable to get 2FA status, check your credentials.")
+    exit(1)
+
+if twofa_enabled:
+    try:
+        totp = pyotp.TOTP(UPTIME_KUMA_2FA_SECRET)
+        token = totp.now()
+    except:
+        print("Unable to generate 2FA token, check your totp secret.")
+        exit(1)
+
+    try:
+        api.login(UPTIME_KUMA_USERNAME, UPTIME_KUMA_PASSWORD, token)
+    except:
+        print("Unable to login with 2FA token, check your totp secret.")
+        exit(1)
+
 
 @app.get('/')
 def index():
