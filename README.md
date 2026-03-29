@@ -8,8 +8,11 @@ Three environment variables are required:
 * `UPTIME_KUMA_USERNAME`
 * `UPTIME_KUMA_PASSWORD`
 
+One environment variable is optional depending on 2FA status:
+* `UPTIME_KUMA_2FA_SECRET`
+
 ## Usage
-A Docker image is provided and is the easiest way to get started: `lucatnt/uptimekuma-maintenance`
+A Docker image is provided and is the easiest way to get started: `permster/uptimekuma-maintenance`
 
     docker run -e UPTIME_KUMA_URL=http://my.uptime.kuma:3001 -e UPTIME_KUMA_USERNAME=admin -e UPTIME_KUMA_PASSWORD=password -p 8000:80 lucatnt/uptimekuma-maintenance
 
